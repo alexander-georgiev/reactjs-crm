@@ -3058,13 +3058,19 @@ function About() {
       lineNumber: 5
     },
     __self: this
-  }, __jsx("p", {
+  }, __jsx("h1", {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 6
     },
     __self: this
-  }, "This is the about page"));
+  }, "About"), __jsx("p", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 7
+    },
+    __self: this
+  }, "Hi, I am Alex."));
 }
 
 /***/ }),
