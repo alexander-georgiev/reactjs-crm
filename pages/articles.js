@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
-//import firebase from '../src/Firebase';
+import firebase from './Firebase';
 
 class Articles extends Component {
 

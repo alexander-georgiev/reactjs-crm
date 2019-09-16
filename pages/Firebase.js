@@ -9,8 +9,14 @@ const config = {
     storageBucket: "gs://personal-website-156914.appspot.com",
     messagingSenderId: "179474896816"
 };
-firebase.initializeApp(config);
+if (!firebase.apps.length) {
+    try {
+        firebase.initializeApp(config)
+    } catch (err) {
+        console.error('Firebase initialization error raised', err.stack)
+    }
+}
 
-firebase.firestore().settings(settings);
+// firebase.firestore().settings(settings);
 
 export default firebase;
