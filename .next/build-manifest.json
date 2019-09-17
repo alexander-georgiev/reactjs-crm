@@ -12,11 +12,11 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/about": [
+    "/articles": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/articles": [
+    "/p/[id]": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]

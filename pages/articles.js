@@ -3,37 +3,35 @@ import Link from 'next/link';
 import firebase from './Firebase';
 
 class Articles extends Component {
-
   constructor(props) {
     super(props);
+    this.ref = firebase.firestore().collection('articles');
+    this.unsubscribe = null;
     this.state = {
-      board: {},
-      key: ''
+      boards: []
     };
   }
 
-  componentDidMount() {
-    const ref = firebase.firestore().collection('articles').doc(this.props.match.params.id);
-    ref.get().then((doc) => {
-      if (doc.exists) {
-        this.setState({
-          board: doc.data(),
-          key: doc.id,
-          isLoading: false
-        });
-      } else {
-        console.log("No such document!");
-      }
+  onCollectionUpdate = (querySnapshot) => {
+    const boards = [];
+    querySnapshot.forEach((doc) => {
+      const { title, description, author } = doc.data();
+      boards.push({
+        key: doc.id,
+        doc, // DocumentSnapshot
+        title,
+        description,
+        author,
+      });
     });
+    this.setState({
+      boards
+   });
   }
 
-  delete(id){
-    firebase.firestore().collection('articles').doc(id).delete().then(() => {
-      console.log("Document successfully deleted!");
-      this.props.history.push("/")
-    }).catch((error) => {
-      console.error("Error removing document: ", error);
-    });
+  componentDidMount() {
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+    console.log(this.state)
   }
 
   render() {
@@ -41,20 +39,30 @@ class Articles extends Component {
       <div class="container">
         <div class="panel panel-default">
           <div class="panel-heading">
-          <h4><Link to="/">Board List</Link></h4>
             <h3 class="panel-title">
-              {this.state.board.title}
+              BOARD LIST
             </h3>
           </div>
           <div class="panel-body">
-            <dl>
-              <dt>Description:</dt>
-              <dd>{this.state.board.description}</dd>
-              <dt>Author:</dt>
-              <dd>{this.state.board.author}</dd>
-            </dl>
-            <Link to={`/edit/${this.state.key}`} class="btn btn-success">Edit</Link>&nbsp;
-            <button onClick={this.delete.bind(this, this.state.key)} class="btn btn-danger">Delete</button>
+            <h4><Link to="/create">Add Board</Link></h4>
+            <table class="table table-stripe">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Author</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.boards.map(board =>
+                  <tr>
+                    <td><Link href="/p/[id]" as={`/p/${board.title}`}>{board.title}</Link></td>
+                    <td>{board.description}</td>
+                    <td>{board.author}</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

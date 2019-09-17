@@ -1,5 +1,6 @@
 import Header from './Header';
 import Footer from './Footer';
+import firebase from '../pages/Firebase';
 
 const layoutStyle = {
   margin: 20,

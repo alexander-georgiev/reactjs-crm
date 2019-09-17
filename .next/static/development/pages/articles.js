@@ -77,6 +77,36 @@ module.exports = __webpack_require__(/*! core-js/library/fn/promise */ "./node_m
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _defineProperty; });
+/* harmony import */ var _core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core-js/object/define-property */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js");
+/* harmony import */ var _core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__);
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    _core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default()(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime-corejs2/helpers/extends.js":
 /*!****************************************************************!*\
   !*** ./node_modules/@babel/runtime-corejs2/helpers/extends.js ***!
@@ -54375,10 +54405,10 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Farticles&absolutePagePath=D%3A%5CWork%5Cageorgiev-reactjs%5Cpages%5Carticles.js!./":
-/*!**************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Farticles&absolutePagePath=D%3A%5CWork%5Cageorgiev-reactjs%5Cpages%5Carticles.js ***!
-  \**************************************************************************************************************************************************************************/
+/***/ "./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Farticles&absolutePagePath=C%3A%5CWork%5Creactjs-crm%5Cpages%5Carticles.js!./":
+/*!********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Farticles&absolutePagePath=C%3A%5CWork%5Creactjs-crm%5Cpages%5Carticles.js ***!
+  \********************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -58379,48 +58409,55 @@ if (!firebase__WEBPACK_IMPORTED_MODULE_0__["apps"].length) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
-/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Firebase__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Firebase */ "./pages/Firebase.js");
-var _jsxFileName = "D:\\Work\\ageorgiev-reactjs\\pages\\articles.js";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
+/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Firebase__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Firebase */ "./pages/Firebase.js");
+
+var _jsxFileName = "C:\\Work\\reactjs-crm\\pages\\articles.js";
+var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
 
 
 
 
-class Articles extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+class Articles extends react__WEBPACK_IMPORTED_MODULE_1__["Component"] {
   constructor(props) {
     super(props);
+
+    Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "onCollectionUpdate", querySnapshot => {
+      const boards = [];
+      querySnapshot.forEach(doc => {
+        const {
+          title,
+          description,
+          author
+        } = doc.data();
+        boards.push({
+          key: doc.id,
+          doc,
+          // DocumentSnapshot
+          title,
+          description,
+          author
+        });
+      });
+      this.setState({
+        boards
+      });
+    });
+
+    this.ref = _Firebase__WEBPACK_IMPORTED_MODULE_3__["default"].firestore().collection('articles');
+    this.unsubscribe = null;
     this.state = {
-      board: {},
-      key: ''
+      boards: []
     };
   }
 
   componentDidMount() {
-    const ref = _Firebase__WEBPACK_IMPORTED_MODULE_2__["default"].firestore().collection('articles').doc(this.props.match.params.id);
-    ref.get().then(doc => {
-      if (doc.exists) {
-        this.setState({
-          board: doc.data(),
-          key: doc.id,
-          isLoading: false
-        });
-      } else {
-        console.log("No such document!");
-      }
-    });
-  }
-
-  delete(id) {
-    _Firebase__WEBPACK_IMPORTED_MODULE_2__["default"].firestore().collection('articles').doc(id).delete().then(() => {
-      console.log("Document successfully deleted!");
-      this.props.history.push("/");
-    }).catch(error => {
-      console.error("Error removing document: ", error);
-    });
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+    console.log(this.state);
   }
 
   render() {
@@ -58428,97 +58465,126 @@ class Articles extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       class: "container",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 41
+        lineNumber: 39
       },
       __self: this
     }, __jsx("div", {
       class: "panel panel-default",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 42
+        lineNumber: 40
       },
       __self: this
     }, __jsx("div", {
       class: "panel-heading",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 43
+        lineNumber: 41
+      },
+      __self: this
+    }, __jsx("h3", {
+      class: "panel-title",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 42
+      },
+      __self: this
+    }, "BOARD LIST")), __jsx("div", {
+      class: "panel-body",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 46
       },
       __self: this
     }, __jsx("h4", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 44
+        lineNumber: 47
       },
       __self: this
-    }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_1___default.a, {
-      to: "/",
+    }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      to: "/create",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 44
+        lineNumber: 47
       },
       __self: this
-    }, "Board List")), __jsx("h3", {
-      class: "panel-title",
+    }, "Add Board")), __jsx("table", {
+      class: "table table-stripe",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 45
+        lineNumber: 48
       },
       __self: this
-    }, this.state.board.title)), __jsx("div", {
-      class: "panel-body",
+    }, __jsx("thead", {
       __source: {
         fileName: _jsxFileName,
         lineNumber: 49
       },
       __self: this
-    }, __jsx("dl", {
+    }, __jsx("tr", {
       __source: {
         fileName: _jsxFileName,
         lineNumber: 50
       },
       __self: this
-    }, __jsx("dt", {
+    }, __jsx("th", {
       __source: {
         fileName: _jsxFileName,
         lineNumber: 51
       },
       __self: this
-    }, "Description:"), __jsx("dd", {
+    }, "Title"), __jsx("th", {
       __source: {
         fileName: _jsxFileName,
         lineNumber: 52
       },
       __self: this
-    }, this.state.board.description), __jsx("dt", {
+    }, "Description"), __jsx("th", {
       __source: {
         fileName: _jsxFileName,
         lineNumber: 53
       },
       __self: this
-    }, "Author:"), __jsx("dd", {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 54
-      },
-      __self: this
-    }, this.state.board.author)), __jsx(next_link__WEBPACK_IMPORTED_MODULE_1___default.a, {
-      to: "/edit/".concat(this.state.key),
-      class: "btn btn-success",
+    }, "Author"))), __jsx("tbody", {
       __source: {
         fileName: _jsxFileName,
         lineNumber: 56
       },
       __self: this
-    }, "Edit"), "\xA0", __jsx("button", {
-      onClick: this.delete.bind(this, this.state.key),
-      class: "btn btn-danger",
+    }, this.state.boards.map(board => __jsx("tr", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 57
+        lineNumber: 58
       },
       __self: this
-    }, "Delete"))));
+    }, __jsx("td", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 59
+      },
+      __self: this
+    }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      href: "/p/[id]",
+      as: "/p/".concat(board.title),
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 59
+      },
+      __self: this
+    }, board.title)), __jsx("td", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 60
+      },
+      __self: this
+    }, board.description), __jsx("td", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 61
+      },
+      __self: this
+    }, board.author))))))));
   }
 
 }
@@ -58527,14 +58593,14 @@ class Articles extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
 /***/ }),
 
-/***/ 0:
-/*!******************************************************************************************************************************!*\
-  !*** multi next-client-pages-loader?page=%2Farticles&absolutePagePath=D%3A%5CWork%5Cageorgiev-reactjs%5Cpages%5Carticles.js ***!
-  \******************************************************************************************************************************/
+/***/ 2:
+/*!************************************************************************************************************************!*\
+  !*** multi next-client-pages-loader?page=%2Farticles&absolutePagePath=C%3A%5CWork%5Creactjs-crm%5Cpages%5Carticles.js ***!
+  \************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! next-client-pages-loader?page=%2Farticles&absolutePagePath=D%3A%5CWork%5Cageorgiev-reactjs%5Cpages%5Carticles.js! */"./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Farticles&absolutePagePath=D%3A%5CWork%5Cageorgiev-reactjs%5Cpages%5Carticles.js!./");
+module.exports = __webpack_require__(/*! next-client-pages-loader?page=%2Farticles&absolutePagePath=C%3A%5CWork%5Creactjs-crm%5Cpages%5Carticles.js! */"./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Farticles&absolutePagePath=C%3A%5CWork%5Creactjs-crm%5Cpages%5Carticles.js!./");
 
 
 /***/ }),
@@ -58550,5 +58616,5 @@ module.exports = dll_01f9a3fa864a7b7414d8;
 
 /***/ })
 
-},[[0,"static/runtime/webpack.js"]]]);
+},[[2,"static/runtime/webpack.js"]]]);
 //# sourceMappingURL=articles.js.map
