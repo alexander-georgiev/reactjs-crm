@@ -3,20 +3,21 @@ import Link from 'next/link';
 import firebase from './Firebase';
 
 class Articles extends Component {
+
   constructor(props) {
     super(props);
     this.ref = firebase.firestore().collection('articles');
     this.unsubscribe = null;
     this.state = {
-      boards: []
+      articles: []
     };
   }
 
   onCollectionUpdate = (querySnapshot) => {
-    const boards = [];
+    const articles = [];
     querySnapshot.forEach((doc) => {
       const { title, description, author } = doc.data();
-      boards.push({
+      articles.push({
         key: doc.id,
         doc, // DocumentSnapshot
         title,
@@ -25,26 +26,28 @@ class Articles extends Component {
       });
     });
     this.setState({
-      boards
+      articles
    });
   }
 
   componentDidMount() {
+    const { router } = this.props;
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
-    console.log(this.state)
+    console.log(router)
   }
 
   render() {
+    const { router } = this.props
     return (
       <div class="container">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">
-              BOARD LIST
+              Posts
             </h3>
           </div>
           <div class="panel-body">
-            <h4><Link to="/create">Add Board</Link></h4>
+            <h4><Link to="/create">Add article</Link></h4>
             <table class="table table-stripe">
               <thead>
                 <tr>
@@ -54,11 +57,11 @@ class Articles extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.state.boards.map(board =>
+                {this.state.articles.map(article =>
                   <tr>
-                    <td><Link href="/p/[id]" as={`/p/${board.title}`}>{board.title}</Link></td>
-                    <td>{board.description}</td>
-                    <td>{board.author}</td>
+                    <td><Link href="/p/[id]" as={`/p/${article.title}`}>{article.title}</Link></td>
+                    <td>{article.description}</td>
+                    <td>{article.author}</td>
                   </tr>
                 )}
               </tbody>
