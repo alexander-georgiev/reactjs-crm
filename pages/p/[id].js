@@ -35,9 +35,15 @@ class Article extends Component {
     }
     render() {
         const { router } = this.props
-        return ( <div class="container"><h1>{this.state.article.title}</h1>
-            <p>{this.state.article.author}</p>
-            <p>{this.state.article.excerpt}</p></div>);
+        return ( 
+        <Layout>  
+
+      
+    
+            <div class="container"><h1>{this.state.article.title}</h1>
+           
+            <p>{this.state.article.excerpt}</p></div>
+        </Layout>);
         }
 }
     export default Article;

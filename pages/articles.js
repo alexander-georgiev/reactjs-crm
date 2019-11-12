@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+import {
+  Card, CardImg, CardText, CardBody,
+  CardTitle, CardSubtitle, Button
+} from 'reactstrap';
+import Page from '../components/MyLayout';
 import Link from 'next/link';
-import firebase from './Firebase';
+import firebase from '../src/Firebase';
 
 class Articles extends Component {
 
@@ -39,36 +44,25 @@ class Articles extends Component {
   render() {
     const { router } = this.props
     return (
+      <Page>
       <div class="container">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              Posts
-            </h3>
-          </div>
-          <div class="panel-body">
-            <h4><Link to="/create">Add article</Link></h4>
-            <table class="table table-stripe">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Description</th>
-                  <th>Author</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.articles.map(article =>
-                  <tr>
-                    <td><Link href="/p/[id]" as={`/p/${article.title}`}>{article.title}</Link></td>
-                    <td>{article.description}</td>
-                    <td>{article.author}</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+        <div class="row">
+          {this.state.articles.map(article =>
+            <div className="col-lg-4 col-md-6">
+              <Card>
+                <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
+                <CardBody>
+                  <CardTitle>{article.title}</CardTitle>
+                  <CardSubtitle>Card subtitle</CardSubtitle>
+                  <CardText>S{article.description}</CardText>
+                  <Link  href="/p/[id]" as={`/p/${article.title}`}><Button>Read</Button></Link>
+                </CardBody>
+              </Card>
+            </div>
+            )}
+           </div>
         </div>
-      </div>
+      </Page>
     );
   }
 }
