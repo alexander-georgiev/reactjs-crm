@@ -1,6 +1,8 @@
+import React, { Component } from "react";
 import Link from 'next/link';
 import Head from 'next/head';
 import "../src/style.scss";
+import firebase from '../components/Firebase';
 import {
   Collapse,
   Navbar,
@@ -13,14 +15,23 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem } from 'reactstrap';
-const Header = () => (
-  <div>
+class Header extends Component {
+  constructor(props){
+    super(props);
+    // var self = this;
+    // firebase.auth().onAuthStateChanged(function(user) {
+    //   self.setState({ user: user });
+    // });
+  }
+render() {
+  return (
+  <header>
   <Head>
       <title>Meetingbox</title>
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       
     </Head>
-  <header>
+
       <Navbar color="light" light expand="md">
         <NavbarBrand href="/">Meetingbox</NavbarBrand>
         <NavbarToggler  />
@@ -33,11 +44,16 @@ const Header = () => (
               <NavLink href="/about">About</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/login">Sign In</NavLink>
+              <NavLink href="/registration">Sign In</NavLink>
             </NavItem>
-             <NavItem>
-              <NavLink onClick={() => app.auth().signOut()}>Sign Out</NavLink>
+             
+             <NavItem className={ firebase.auth().currentUser ? '' : 'd-none' }>
+              <NavLink href="#" onClick={() => firebase.auth().signOut()}>Sign Out</NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink href="/admin">Admin</NavLink>
+            </NavItem>
+            
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 Options
@@ -58,8 +74,9 @@ const Header = () => (
           </Nav>
         </Collapse>
       </Navbar>
-  </header>
-  </div>
-);
 
+  </header>
+  )
+}
+}
 export default Header;

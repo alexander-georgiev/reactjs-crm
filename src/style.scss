@@ -1,4 +1,4 @@
-$primary: #13C7CD;
+$primary: #212121;
 @import '~bootstrap/scss/bootstrap';
 body {
   margin: 0;
@@ -7,9 +7,20 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+main {
+	  min-height: calc(100vh - 80px);
+}
+.login {
+	max-width: 320px;
+    margin: 0 auto;
+}
+.entry-content {
+	padding: $grid-gutter-width 0;
 }

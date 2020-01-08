@@ -4,7 +4,7 @@ import Footer from './Footer';
 export default ({ children }) => (
   <div>
     <Header />
-    { children }
+    <main>{ children }</main>
     <Footer />
   </div>
 )
