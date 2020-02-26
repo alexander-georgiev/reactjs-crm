@@ -6,10 +6,12 @@ import firebase from '../components/Firebase';
 import { Alert, Card, Button, Form, FormGroup, Label, Input, FormText, TabContent, TabPane, NavItem, NavLink, Nav } from 'reactstrap';
 import Page from '../components/MyLayout';
 import classnames from 'classnames';
+import Cookie from "js-cookie";
 
 const INITIAL_STATE = {
   email: '',
   password: '',
+  user: null,
   error: null,
   activeTab: '1',
 };
@@ -26,13 +28,37 @@ class SignInFormBase extends Component {
       this.setState({ activeTab: tab });
     }
   }
+  setFBTokenInCookie(token) {
+    document.cookie = "firebaseToken=" + token;
+  }
+ 
+  getFBTokenCookie() {
+    let name = "firebaseToken=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
   onLogin = event => {
     const { email, password } = this.state;
+    var self = this;
     firebase
       .auth().signInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.setState({ ...INITIAL_STATE });
-        location.replace('/');
+      .then((user) => {
+        this.setState({ currentUser: user.user });
+        localStorage.setItem('currentUser', true);
+        Cookie.set('user', user.user.refreshToken);
+        //document.cookie = "firebaseToken=" + user.user.refreshToken;
+        
+        //location.replace('/');
 
       })
       .catch(error => {
@@ -45,7 +71,7 @@ class SignInFormBase extends Component {
     firebase
       .auth().createUserWithEmailAndPassword(email, password)
       .then(() => {
-        this.setState({ ...INITIAL_STATE });
+        this.setState({ currentUser: user.user });
         location.replace('/articles');
 
       })
@@ -104,7 +130,7 @@ class SignInFormBase extends Component {
                         placeholder="Password"
                       />
                       </FormGroup>
-                      <Button disabled={isInvalid} type="submit" color="primary" block>
+                      <Button type="submit" color="primary" block>
                         Sign In
                       </Button>
                       <Button href="/articles" color="link" block>
@@ -130,7 +156,7 @@ class SignInFormBase extends Component {
                         placeholder="Password"
                       />
                       </FormGroup>
-                      <Button disabled={isInvalid} type="submit" color="primary" block>
+                      <Button type="submit" color="primary" block>
                         Sign Up
                       </Button>
                     

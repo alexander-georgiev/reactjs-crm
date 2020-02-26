@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import Link from 'next/link';
 import Head from 'next/head';
 import "../src/style.scss";
-import firebase from '../components/Firebase';
+import firebase from './Firebase';
+import SignOut from './SignOut';
+import Loading from './LoadingSpinner';
+import Cookie from "js-cookie";
+//import { authenticationService  } from '../components/Firebase/authentication';
 import {
   Collapse,
   Navbar,
@@ -18,12 +22,30 @@ import {
 class Header extends Component {
   constructor(props){
     super(props);
-    // var self = this;
-    // firebase.auth().onAuthStateChanged(function(user) {
-    //   self.setState({ user: user });
-    // });
+    this.state = {
+            currentUser: null,
+            isLoading: true
+        };
+  }
+  componentDidMount() {
+    
+    firebase.auth().onAuthStateChanged(authUser => {
+     // console.log(authUser)
+      if(authUser) {
+        this.setState({
+          currentUser: authUser
+        });
+      } else {
+       this.setState({
+        currentUser: authUser
+      });
+      }
+    });
+    this.setState({ isLoading: false })
+    
   }
 render() {
+  const { currentUser } = this.state;
   return (
   <header>
   <Head>
@@ -31,7 +53,7 @@ render() {
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       
     </Head>
-
+<Loading/>
       <Navbar color="light" light expand="md">
         <NavbarBrand href="/">Meetingbox</NavbarBrand>
         <NavbarToggler  />
@@ -46,10 +68,9 @@ render() {
             <NavItem>
               <NavLink href="/registration">Sign In</NavLink>
             </NavItem>
-             
-             <NavItem className={ firebase.auth().currentUser ? '' : 'd-none' }>
-              <NavLink href="#" onClick={() => firebase.auth().signOut()}>Sign Out</NavLink>
-            </NavItem>
+
+            { Cookie.get('user') ? <SignOut/> : null }
+            
             <NavItem>
               <NavLink href="/admin">Admin</NavLink>
             </NavItem>
